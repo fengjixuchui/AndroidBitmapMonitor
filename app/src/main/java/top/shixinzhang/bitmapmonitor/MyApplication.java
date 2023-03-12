@@ -34,6 +34,7 @@ public class MyApplication extends Application {
         long threshold = 100 * 1024;
         long restoreImageThreshold = 100 * 1024;;
         String dir = this.getExternalFilesDir("bitmap_monitor").getAbsolutePath();
+        Log.d("bitmapmonitor", "restoreImageDirectory: " + dir);
 
         BitmapMonitor.Config config = new BitmapMonitor.Config.Builder()
                 .checkRecycleInterval(checkInterval)    //检查图片是否被回收的间隔，单位：秒 （建议不要太频繁，默认 5秒）
@@ -41,6 +42,9 @@ public class MyApplication extends Application {
                 .restoreImageThreshold(restoreImageThreshold)   //还原图片的阈值，当一张图占据的内存超过这个数值后，就会还原出一张原始图片
                 .restoreImageDirectory(dir)             //保存还原后图片的目录
                 .showFloatWindow(true)                  //是否展示悬浮窗，可实时查看内存大小（建议只在 debug 环境打开）
+                .clearAllFileWhenRestartApp(true)      //重启后清除本地所有文件（目前不支持展示历史数据，所以默认清除本地所有 2023.03.12）
+                .clearFileWhenOutOfThreshold(true)     //运行时超出阈值就清理，阈值为 diskCacheLimitBytes
+                .diskCacheLimitBytes(10 * 1024 * 1024)  //本地图片缓存写入上限，单位为 byte，默认大小为 512MB，超出后会立刻删除
                 .isDebug(true)
                 .context(this)
                 .build();

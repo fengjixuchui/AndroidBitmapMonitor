@@ -33,6 +33,8 @@ struct BitmapRecord {
     jobject java_bitmap_ref;
     jstring java_stack_jstring;
     jstring current_scene;
+
+    bool restore_succeed;
 };
 
 struct BitmapMonitorContext {
@@ -44,10 +46,17 @@ struct BitmapMonitorContext {
 
     jmethodID bitmap_recycled_method;
     jclass bitmap_monitor_jclass;
+    jfieldID native_ptr_field;
+
     jmethodID dump_stack_method;
     jmethodID get_current_scene_method;
+
     jclass bitmap_info_jclass;
     jmethodID report_bitmap_data_method;
+    jmethodID report_bitmap_file_method;
+
+    jclass bitmap_record_class;
+    jmethodID bitmap_record_constructor_method;
 
     std::vector<BitmapRecord> bitmap_records;
 
